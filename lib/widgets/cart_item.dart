@@ -43,7 +43,7 @@ class CartItem extends StatelessWidget {
       child: Card(
         margin: EdgeInsets.symmetric(
           horizontal: 15,
-          vertical: 4,
+          vertical: 2,
         ),
         child: Padding(
           padding: EdgeInsets.all(8),
@@ -52,13 +52,13 @@ class CartItem extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(5),
                 child: FittedBox(
-                  child: Text('\$$price'),
+                  child: Text('$price'),
                 ),
               ),
             ),
             title: Text(title),
-            subtitle: Text('Total: \$${(price * quantity)}'),
-            trailing: Text('$quantity x'),
+            subtitle: Text('Total: Rs.${(price * quantity)}'),
+            trailing: Text('x $quantity'),
           ),
         ),
       ),

@@ -31,13 +31,14 @@ class CartScreen extends StatelessWidget {
                   Spacer(),
                   Chip(
                     label: Text(
-                      '\$${cart.totalAmount}',
+                      'Rs.${cart.totalAmount}',
                       style: TextStyle(
                         color: Theme.of(context).primaryTextTheme.title.color,
                       ),
                     ),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
+                  SizedBox(width: 10,),
                   FlatButton(
                     child: Text('ORDER NOW'),
                     onPressed: () {
