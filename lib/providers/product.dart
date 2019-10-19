@@ -4,8 +4,8 @@ class Product with ChangeNotifier {
   final String id;
   final String title;
   final String description;
-  final String imageUrl;
   final double price;
+  final String imageUrl;
   bool isFavorite;
 
   Product({
@@ -17,7 +17,7 @@ class Product with ChangeNotifier {
     this.isFavorite = false,
   });
 
-  void toggleFavorite() {
+  void toggleFavoriteStatus() {
     isFavorite = !isFavorite;
     notifyListeners();
   }
