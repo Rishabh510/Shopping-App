@@ -13,7 +13,10 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
+    final product = Provider.of<Product>(
+      context,
+      listen: false,
+    );
     return GridTile(
       child: GestureDetector(
         onTap: () {
@@ -28,15 +31,18 @@ class ProductItem extends StatelessWidget {
         ),
       ),
       footer: GridTileBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.favorite,
-          ),
-          onPressed: () {
-            product.toggleFavorite();
-          },
-          hoverColor: Colors.redAccent,
-          color: product.isFavorite ? Colors.red : Colors.blueGrey,
+        leading: Consumer<Product>(
+          builder: (ctx, product, child) =>
+              IconButton(
+                icon: Icon(
+                  Icons.favorite,
+                ),
+                onPressed: () {
+                  product.toggleFavorite();
+                },
+                hoverColor: Colors.redAccent,
+                color: product.isFavorite ? Colors.red : Colors.blueGrey,
+              ),
         ),
         trailing: IconButton(
           icon: Icon(Icons.shopping_cart),
