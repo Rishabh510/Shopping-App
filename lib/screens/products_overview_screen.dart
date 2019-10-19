@@ -13,7 +13,7 @@ class ProductsOverviewScreen extends StatefulWidget {
 }
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
-  var _showFavoritesOnly = false;
+  var _showOnlyFavorites = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +37,17 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             onSelected: (FilterOptions selectedValue) {
               setState(() {
                 if (selectedValue == FilterOptions.Favorites) {
-                  _showFavoritesOnly = true;
+                  _showOnlyFavorites = true;
                 } else {
-                  _showFavoritesOnly = false;
+                  _showOnlyFavorites = false;
                 }
               });
             },
             icon: Icon(Icons.more_vert),
-          )
+          ),
         ],
       ),
-      body: ProductsGrid(_showFavoritesOnly),
+      body: ProductsGrid(_showOnlyFavorites),
     );
   }
 }
