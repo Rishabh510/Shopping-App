@@ -65,12 +65,33 @@ class Products with ChangeNotifier {
   //   _showFavoritesOnly = false;
   //   notifyListeners();
   // }
+  Future<void> fetchAndSetProducts() async {
+    const url = 'https://shopping-app-cd2ca.firebaseio.com/products.json';
+    try {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      final List<Product> loadedProducts = [];
+      extractedData.forEach((prodId, prodData) {
+        loadedProducts.add(Product(
+          id: prodId,
+          title: prodData['title'],
+          description: prodData['dedescription'],
+          price: prodData['prprice'],
+          imageUrl: prodData['imimageUrl'],
+          isFavorite: prodData['isFavorite'],
+        ));
+      });
+      _items = loadedProducts;
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
 
   Future<void> addProduct(Product product) async {
     const url = 'https://shopping-app-cd2ca.firebaseio.com/products.json';
     try {
-      final response = await http
-          .post(
+      final response = await http.post(
         url,
         body: json.encode({
           'title': product.description,
