@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../providers/product.dart';
 import '../providers/products.dart';
 
+// test url - https://png.pngtree.com/png-vector/20190130/ourmid/pngtree-hand-drawn-cartoon-a-pile-of-books-and-a-pencil-element-png-image_636359.jpg
+
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit-product';
 
@@ -98,7 +100,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       appBar: AppBar(
         title: Text('Edit Product'),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.save), onPressed: _saveForm)
+          IconButton(icon: Icon(Icons.save), onPressed: _saveForm,),
         ],
       ),
       body: Padding(
@@ -234,10 +236,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           return 'Please provide a value.';
                         } else if (!value.startsWith('http') ||
                             !value.startsWith('https')) {
-                          return 'Please enter a valid Url';
-                        } else if (!value.endsWith('.png') ||
-                            !value.startsWith('.jpg')) {
-                          return 'Please enter a valid Url';
+                          return 'Please enter a valid Url starting with http or https';
+                        } else if (!value.endsWith('png') ||
+                            !value.endsWith('jpg')) {
+                          return 'Please enter a valid Url ending with .jpg or .png';
                         } else
                           return null;
                       },

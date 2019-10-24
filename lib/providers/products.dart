@@ -68,23 +68,28 @@ class Products with ChangeNotifier {
 
   void addProduct(Product product) {
     const url = 'https://shopping-app-cd2ca.firebaseio.com/products.json';
-    http.post(url, body: json.encode({
-      'title': product.description,
-      'description': product.description,
-      'imageUrl': product.imageUrl,
-      'price': product.price,
-      'isFavorite': product.isFavorite,
-
-    }));
-    final newProduct = Product(
-      price: product.price,
-      id: DateTime.now().toString(),
-      description: product.description,
-      title: product.description,
-      imageUrl: product.imageUrl,
-    );
-    items.add(newProduct);
-    notifyListeners();
+    http
+        .post(
+      url,
+      body: json.encode({
+        'title': product.description,
+        'description': product.description,
+        'imageUrl': product.imageUrl,
+        'price': product.price,
+        'isFavorite': product.isFavorite,
+      }),
+    )
+        .then((response) {
+      final newProduct = Product(
+        price: product.price,
+        id: json.decode(response.body)['name'],
+        description: product.description,
+        title: product.description,
+        imageUrl: product.imageUrl,
+      );
+      _items.add(newProduct);
+      notifyListeners();
+    });
   }
 
   void updateProduct(String id, Product newProduct) {
