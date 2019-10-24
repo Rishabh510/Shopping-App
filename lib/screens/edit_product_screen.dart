@@ -34,6 +34,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   var _isInit = true;
+  var _isLoading = false;
+
   var _initValues = {
     'title': '',
     'description': '',
@@ -85,13 +87,27 @@ class _EditProductScreenState extends State<EditProductScreen> {
     final isValid = _form.currentState.validate();
     if (!isValid) return;
     _form.currentState.save();
+    setState(() {
+      _isLoading = true;
+    });
     if (_editedProduct.id != null) {
       Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).pop();
     } else {
-      Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+      Provider.of<Products>(context, listen: false)
+          .addProduct(_editedProduct)
+          .then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.of(context).pop();
+      });
     }
-    Navigator.of(context).pop();
+//    Navigator.of(context).pop();
   }
 
   @override
@@ -100,10 +116,17 @@ class _EditProductScreenState extends State<EditProductScreen> {
       appBar: AppBar(
         title: Text('Edit Product'),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.save), onPressed: _saveForm,),
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: _saveForm,
+          ),
         ],
       ),
-      body: Padding(
+      body: _isLoading
+          ? Center(
+        child: CircularProgressIndicator(),
+      )
+          : Padding(
         padding: const EdgeInsets.all(10.0),
         child: Form(
           key: _form,
@@ -144,7 +167,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 focusNode: _priceFocusNode,
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_descriptionFocusNode);
+                  FocusScope.of(context)
+                      .requestFocus(_descriptionFocusNode);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -237,9 +261,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         } else if (!value.startsWith('http') ||
                             !value.startsWith('https')) {
                           return 'Please enter a valid Url starting with http or https';
-                        } else if (!value.endsWith('png') ||
-                            !value.endsWith('jpg')) {
-                          return 'Please enter a valid Url ending with .jpg or .png';
                         } else
                           return null;
                       },
