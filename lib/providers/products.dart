@@ -66,20 +66,20 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  Future<void> addProduct(Product product) {
+  Future<void> addProduct(Product product) async {
     const url = 'https://shopping-app-cd2ca.firebaseio.com/products.json';
-    return http
-        .post(
-      url,
-      body: json.encode({
-        'title': product.description,
-        'description': product.description,
-        'imageUrl': product.imageUrl,
-        'price': product.price,
-        'isFavorite': product.isFavorite,
-      }),
-    )
-        .then((response) {
+    try {
+      final response = await http
+          .post(
+        url,
+        body: json.encode({
+          'title': product.description,
+          'description': product.description,
+          'imageUrl': product.imageUrl,
+          'price': product.price,
+          'isFavorite': product.isFavorite,
+        }),
+      );
       final newProduct = Product(
         price: product.price,
         id: json.decode(response.body)['name'],
@@ -89,11 +89,40 @@ class Products with ChangeNotifier {
       );
       _items.add(newProduct);
       notifyListeners();
-    }).catchError((error) {
+    } catch (error) {
       print(error);
       throw error;
-    });
+    }
   }
+
+//  Future<void> addProduct(Product product) {
+//    const url = 'https://shopping-app-cd2ca.firebaseio.com/products.json';
+//    return http
+//        .post(
+//      url,
+//      body: json.encode({
+//        'title': product.description,
+//        'description': product.description,
+//        'imageUrl': product.imageUrl,
+//        'price': product.price,
+//        'isFavorite': product.isFavorite,
+//      }),
+//    )
+//        .then((response) {
+//      final newProduct = Product(
+//        price: product.price,
+//        id: json.decode(response.body)['name'],
+//        description: product.description,
+//        title: product.description,
+//        imageUrl: product.imageUrl,
+//      );
+//      _items.add(newProduct);
+//      notifyListeners();
+//    }).catchError((error) {
+//      print(error);
+//      throw error;
+//    });
+//  }
 
   void updateProduct(String id, Product newProduct) {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
