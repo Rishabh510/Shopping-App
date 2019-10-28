@@ -98,7 +98,9 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       ),
       drawer: AppDrawer(),
       body: _isLoading
-          ? Center(child: LinearProgressIndicator(),)
+          ? Center(
+        child: LinearProgressIndicator(),
+      )
           : ProductsGrid(_showOnlyFavorites),
     );
   }

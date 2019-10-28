@@ -13,11 +13,11 @@ class Auth with ChangeNotifier {
   }
 
   String get token {
-    if (_expiryDate != null && _expiryDate.isAfter(DateTime.now()) &&
+    if (_expiryDate != null &&
+        _expiryDate.isAfter(DateTime.now()) &&
         _token != null) {
       return _token;
-    }
-    else
+    } else
       return null;
   }
 
@@ -43,8 +43,8 @@ class Auth with ChangeNotifier {
       }
       _token = responseData['idToken'];
       _userId = responseData['localId'];
-      _expiryDate = DateTime.now().add(
-          Duration(seconds: int.parse(responseData['expiresIn'])));
+      _expiryDate = DateTime.now()
+          .add(Duration(seconds: int.parse(responseData['expiresIn'])));
       notifyListeners();
     } catch (error) {
       throw error;

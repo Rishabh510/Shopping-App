@@ -8,7 +8,6 @@ import '../widgets/order_item.dart';
 class OrdersScreen extends StatelessWidget {
   static const routeName = '/orders';
 
-
   @override
   Widget build(BuildContext context) {
     //final orderData = Provider.of<Orders>(context);
@@ -29,12 +28,14 @@ class OrdersScreen extends StatelessWidget {
                     //do errorHandling stuff
                     return Center(child: Text('An error occurred'));
                   } else {
-                    return Consumer<Orders>(builder: (ctx, orderData, child) =>
-                        ListView.builder(
-                          itemCount: orderData.orders.length,
-                          itemBuilder: (ctx, i) =>
-                              OrderItem(orderData.orders[i]),
-                        ),);
+                    return Consumer<Orders>(
+                      builder: (ctx, orderData, child) =>
+                          ListView.builder(
+                            itemCount: orderData.orders.length,
+                            itemBuilder: (ctx, i) =>
+                                OrderItem(orderData.orders[i]),
+                          ),
+                    );
                   }
                 }
               })),
