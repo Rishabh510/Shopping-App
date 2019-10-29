@@ -25,7 +25,7 @@ class Auth with ChangeNotifier {
     return _userId;
   }
 
-  Future<void> authenticate(String email, String password,
+  Future<void> _authenticate(String email, String password,
       String urlSegment) async {
     final url =
         'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyChsZqez8SbA8NpokCe0yYaJao_h5oKvUo';
@@ -51,11 +51,18 @@ class Auth with ChangeNotifier {
     }
   }
 
-  Future<void> signup(String email, String password) {
-    return authenticate(email, password, 'signUp');
+  Future<void> signup(String email, String password) async {
+    return _authenticate(email, password, 'signUp');
   }
 
-  Future<void> login(String email, String password) {
-    return authenticate(email, password, 'signInWithPassword');
+  Future<void> login(String email, String password) async {
+    return _authenticate(email, password, 'signInWithPassword');
+  }
+
+  void logout() {
+    _token = null;
+    _userId = null;
+    _expiryDate = null;
+    notifyListeners();
   }
 }
