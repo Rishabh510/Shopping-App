@@ -91,9 +91,9 @@ class Products with ChangeNotifier {
         loadedProducts.add(Product(
           id: prodId,
           title: prodData['title'],
-          description: prodData['dedescription'],
-          price: prodData['prprice'],
-          imageUrl: prodData['imimageUrl'],
+          description: prodData['description'],
+          price: prodData['price'],
+          imageUrl: prodData['imageUrl'],
           isFavorite: favoriteData == null
               ? false
               : favoriteData[prodId] ??
@@ -173,7 +173,7 @@ class Products with ChangeNotifier {
       await http.patch(
         url,
         body: json.encode({
-          'title': newProduct.description,
+          'title': newProduct.title,
           'description': newProduct.description,
           'imageUrl': newProduct.imageUrl,
           'price': newProduct.price,
@@ -193,7 +193,7 @@ class Products with ChangeNotifier {
     _items.removeAt(existingProductIndex);
     notifyListeners();
 
-    final response = await http.patch(url);
+    final response = await http.delete(url);
     if (response.statusCode >= 400) {
       _items.insert(existingProductIndex, existingProduct);
       notifyListeners();

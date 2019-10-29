@@ -43,7 +43,7 @@ class UserProductsScreen extends StatelessWidget {
                   child: ListView.builder(
                     itemBuilder: (_, i) =>
                         Column(
-                          children: <Widget>[
+                          children: [
                             UserProductItem(
                               productsData.items[i].id,
                               productsData.items[i].title,

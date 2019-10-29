@@ -79,13 +79,22 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   void _updateImageUrl() {
     if (!_imageUrlFocusNode.hasFocus) {
+      if ((!_imageUrlController.text.startsWith('http') &&
+          !_imageUrlController.text.startsWith('https')) ||
+          (!_imageUrlController.text.endsWith('.png') &&
+              !_imageUrlController.text.endsWith('.jpg') &&
+              !_imageUrlController.text.endsWith('.jpeg'))) {
+        return;
+      }
       setState(() {});
     }
   }
 
   Future<void> _saveForm() async {
     final isValid = _form.currentState.validate();
-    if (!isValid) return;
+    if (!isValid) {
+      return;
+    }
     _form.currentState.save();
     setState(() {
       _isLoading = true;
@@ -103,7 +112,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
           builder: (ctx) =>
               AlertDialog(
                 title: Text('An error occurred!'),
-                content: Text(error.toString()),
+                content: Text('Something went wrong.'),
+                //error.toString() to print error
                 actions: <Widget>[
                   FlatButton(
                     onPressed: () {
@@ -276,10 +286,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please provide a value.';
-                        } else if (!value.startsWith('http') ||
+                        } else if (!value.startsWith('http') &&
                             !value.startsWith('https')) {
                           return 'Please enter a valid Url starting with http or https';
-                        } else
+                        }
+//                              else if (!value.endsWith('.png') &&
+//                                  !value.endsWith('.jpg') &&
+//                                  !value.endsWith('.jpeg')) {
+//                                return 'Please enter a valid Url ending with .jpg or .png.';
+//                              }
+                        else
                           return null;
                       },
                       onSaved: (value) {
