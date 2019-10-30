@@ -101,6 +101,9 @@ class _AuthCardState extends State<AuthCard> {
     'password': '',
   };
 
+  var _isLoading = false;
+  final _passwordController = TextEditingController();
+
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
@@ -118,9 +121,6 @@ class _AuthCardState extends State<AuthCard> {
           ),
     );
   }
-
-  var _isLoading = false;
-  final _passwordController = TextEditingController();
 
   Future<void> _submit() async {
     if (!_formKey.currentState.validate()) {
